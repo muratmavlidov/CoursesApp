@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
+const { homeRoutes, coursesRoutes, addRoutes } = require('./routes');
 
 const app = express();
 
@@ -14,28 +15,9 @@ app.set('view engine', 'hbs');
 app.set('views', 'views');
 
 app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Главная страница',
-    isHome: true
-  })
-});
-
-app.get('/add', (req, res) => {
-  res.render('add', {
-    title: 'Добавит курс',
-    isAdd: true
-  })
-});
-
-app.get('/courses', (req, res) => {
-  res.render('courses', {
-    title: 'Курсы',
-    isCourses: true
-  })
-});
-
+app.use('/', homeRoutes);
+app.use('/courses', coursesRoutes);
+app.use('/add', addRoutes);
 
 
 const PORT = process.env.PORT || 3000;
