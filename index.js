@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
-const { homeRoutes, coursesRoutes, addRoutes } = require('./routes');
+const { homeRoutes, coursesRoutes, addRoutes, cartRoutes } = require('./routes');
 
 const app = express();
 
@@ -19,6 +19,7 @@ app.use(express.urlencoded({extended: true}))
 app.use('/', homeRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/add', addRoutes);
+app.use('/cart', cartRoutes);
 
 
 const PORT = process.env.PORT || 3000;
