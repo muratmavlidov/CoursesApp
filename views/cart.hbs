@@ -1,6 +1,7 @@
 <h1>Корзина</h1>
 
-{{#if courses.length}}
+<div id="cart">
+  {{#if courses.length}}
   <table>
     <thead>
       <tr>
@@ -17,7 +18,9 @@
         <td>{{title}}</td>
         <td>{{count}}</td>
         <td>
-          <button class="btn btn-small">Удалить</button>
+          <button class="btn btn-small js-remove" data-id="{{id}}">
+            Удалить
+          </button>
         </td>
       </tr>
       {{/each}}
@@ -26,6 +29,7 @@
   </table>
 
   <p><strong>Цена </strong><span class="price">{{price}}</span></p>
-{{else}}
+  {{else}}
   <p>Корзина пуста</p>
-{{/if}}
+  {{/if}}
+</div>
