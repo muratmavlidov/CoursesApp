@@ -33,7 +33,7 @@ class Cart {
 
   static async remove(id) {
     const cart = await Cart.fetch();
-    const idx = cart.courses.findIndex(c => c.id === id);
+    const idx = cart.courses.findIndex((c) => c.id === id);
     const course = cart.courses[idx];
 
     if (course.count === 1) {

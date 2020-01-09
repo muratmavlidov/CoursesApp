@@ -1,11 +1,16 @@
 const priceElements = document.querySelectorAll('.price');
 
-priceElements.forEach((el) => {
-  el.textContent = new Intl.NumberFormat('en-US', {
+const toCurrency = (price) => {
+  return new Intl.NumberFormat('en-US', {
     currency: 'usd',
     style: 'currency'
-  }).format(el.textContent);
-});
+  }).format(price);
+}
+
+priceElements.forEach((node) => {
+  node.textContent = toCurrency(node.textContent);
+})
+
 
 
 // Delete cart item
@@ -21,7 +26,25 @@ if (cart) {
       })
       .then(res => res.json())
       .then(cart => {
-        console.log(cart);
+        if (cart.courses.length) {
+          const html = cart.courses.map(c => {
+            return `
+            <tr>
+              <td>${c.title}</td>
+              <td>${c.count}</td>
+              <td>
+                <button class="btn btn-small js-remove" data-id="${c.id}">
+                  Удалить
+                </button>
+              </td>
+            </tr>
+            `
+          }).join('');
+          document.querySelector('tbody').innerHTML = html;
+          document.querySelector('.price').textContent = toCurrency(cart.price);
+        } else {
+          location.reload();
+        }
       })
     }
   })
