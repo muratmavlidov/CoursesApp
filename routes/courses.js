@@ -4,7 +4,7 @@ const Course = require('../models/course.js');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const courseList = await Course.getAll();
+  const courseList = await Course.find();
   res.render('courses', {
     title: 'Курсы',
     isCourses: true,
@@ -17,7 +17,7 @@ router.get('/:id/edit', async (req, res) => {
     return res.redirect('/')
   }
   
-  const course = await Course.getCourse(req.params.id);
+  const course = await Course.findById(req.params.id);
 
   res.render('course-edit', {
     title: `Редактировать ${course.title}`,
@@ -26,7 +26,9 @@ router.get('/:id/edit', async (req, res) => {
 });
 
 router.post('/edit', async (req, res) => {
-  await Course.update(req.body);
+  const { _id } = req.body;
+  delete req.body._id;
+  await Course.findByIdAndUpdate(_id, req.body);
   res.redirect('/courses');
 })
 
