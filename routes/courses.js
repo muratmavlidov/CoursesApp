@@ -26,28 +26,38 @@ router.get('/:id/edit', async (req, res) => {
   const id = getId(req.params.id)
 
   const course = await Course.findById(id);
-  const { title, price, img } = course;
   res.render('course-edit', {
-    title,
-    price,
-    img
+    title: course.title,
+    price: course.price,
+    img: course.img,
+    id: course.id
   })
 });
 
 router.post('/edit', async (req, res) => {
-  console.log(req);
   const { id } = req.body;
+  delete id;
   await Course.findOneAndUpdate(id, req.body);
   res.redirect('/courses');
-})
+});
+
+router.post('/remove', async (req, res) => {
+  await Course.deleteOne({
+    _id: req.body.id
+  })
+  res.redirect("/courses");
+});
 
 router.get('/:id', async (req, res) => {
+  console.log('ID', req.params.id);
   const id = getId(req.params.id)
   const course = await Course.findById(id);
   res.render('course', {
     layout: 'empty',
-    ...course
+    title: course.title,
+    price: course.price,
+    img: course.img
   });
-})
+});
 
 module.exports = router

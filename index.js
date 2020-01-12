@@ -28,7 +28,6 @@ const PORT = process.env.PORT || 3000;
 async function start() {
 
   try {
-    mongoose.set('useFindAndModify', false);
     const url = 'mongodb+srv://Murat:Lekskeistha199605@cluster0-hbghd.mongodb.net/shop'
 
     const options = {
@@ -37,7 +36,8 @@ async function start() {
       useNewUrlParser: true,
       useFindAndModify: false
     };
-    mongoose.connect(url, options).then(() => console.log('DB connected'));
+    await mongoose.connect(url, options)
+      .then(() => console.log('DB connected'));
   
     app.listen(PORT, () => {
       console.log(`server is running on port: ${PORT}`);
